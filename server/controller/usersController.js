@@ -17,7 +17,8 @@ export const signup = async (req, res) => {
       res.status(500).json({ error: "Email already registered" });
       return;
     }
-    const newUser = await userModel.create(req.body);
+    // const newUser = await userModel.create(req.body);
+    const newUser = new userModel(req.body);
 
     if (req.file) {
       const [avatarURL, public_id] = await imageUpload(req.file, "avatars");

@@ -6,12 +6,12 @@ const productSchema = new Schema(
   {
     title: { type: String, require: true }, // String is shorthand for {type: String}
     price: { type: Number, require: true },
-    images: {
-      type: [String],
-      default: [
-        "https://coffective.com/wp-content/uploads/2018/06/default-featured-image.png.jpg",
-      ],
-    },
+    images: [
+      {
+        public_id: { type: String },
+        url: { type: String, default: "heart-157895_1280.png" },
+      },
+    ],
     categorie: { type: String, require: true },
     userId: { type: String, require: true },
     userDisplayName: { type: String, require: true },
