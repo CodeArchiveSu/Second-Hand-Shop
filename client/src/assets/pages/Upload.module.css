@@ -1,0 +1,121 @@
+.uploadForm {
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  padding: auto;
+  position: absolute;
+  width: 40vh;
+  margin-top: 14vh;
+  color: gray;
+}
+
+.textarea {
+  height: 14vh;
+  border: 0.2px solid gray;
+}
+
+.uploadForm > div {
+  margin-top: 3vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.getLocation {
+  text-decoration: underline;
+  text-align: center;
+  height: 100%;
+}
+
+.uploadimage {
+  flex: 0 0 15vh;
+  height: 15vh;
+  width: 15vh;
+  margin-left: 1vh;
+}
+
+.imageBox {
+  display: flex;
+  flex-direction: row !important;
+  overflow: scroll;
+  min-height: 15vh;
+  width: 100%;
+}
+
+.uploadimage > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+}
+/* 
+.file {
+  height: 15vh;
+  width: 15vh;
+  background-size: cover;
+  border-radius: 14px;
+  appearance: none;
+  background-color: rgb(30, 107, 81);
+  width: 15vh;
+  background-position: center;
+
+} */
+
+.customLabel {
+  /* display: none; */
+  min-height: 15vh;
+  z-index: 5;
+  min-width: 15vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-position: center;
+  border-radius: 14px;
+  background-size: cover;
+  background-image: url("https://webcolours.ca/wp-content/uploads/2020/10/webcolours-unknown.png");
+}
+
+.file {
+  position: absolute;
+
+  height: 15vh;
+  width: 15vh;
+  object-fit: cover;
+  z-index: 2;
+  opacity: 0;
+}
+
+::-webkit-file-upload-button {
+  display: none;
+}
+
+.file::before {
+  position: absolute;
+  top: 0;
+  left: -15vh;
+  height: 15vh;
+  width: 15vh;
+  z-index: 1;
+}
+
+.Postcode,
+.city {
+  width: 50%;
+  display: inline-block;
+}
+
+.location {
+  display: flex;
+  /* flex-direction: row !important; */
+}
+
+/* .location input {
+  display: inline;
+} */
+
+.icon {
+  margin-left: 2vh;
+}

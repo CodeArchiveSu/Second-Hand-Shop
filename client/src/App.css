@@ -1,0 +1,15 @@
+.BrandName {
+  position: absolute;
+  display: flex;
+  justify-self: center;
+  width: 100vw;
+  /* background-color: antiquewhite; */
+  height: 3vh;
+  top: 0;
+  align-items: center;
+  justify-content: space-around;
+  /* background-color: antiquewhite; */
+  margin-top: 3vh;
+  font-size: 26px;
+  color: gray;
+}

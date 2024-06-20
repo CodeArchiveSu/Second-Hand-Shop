@@ -1,0 +1,18 @@
+.navigationContaioner {
+  border-top: 1px solid gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 0;
+  position: fixed;
+  height: 4vh;
+  font-size: 13px;
+  width: 100%;
+  justify-content: space-around;
+  background-color: white;
+}
+
+.navigationContaioner div {
+  color: gray;
+  cursor: pointer;
+}
