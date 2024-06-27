@@ -6,20 +6,34 @@ export type User = {
   email: string;
   userDisplayName: string;
   avatar: string;
-  _id: string;
+  id: string;
 };
 
 export type products = {
   comments: string[];
-  date: string;
-  description: string;
-  latitude: string;
-  likes: number;
-  longtitude: string;
+  createdAt: string;
+  images: images[];
   price: number;
   title: string;
-  userDisplayName: string;
-  userId: string;
+  updatedAt: string;
+  description?: string;
   _id: string;
-  images: string[];
+  likes?: number;
+};
+
+export type images = {
+  public_id: string;
+  url: string;
+  _id: string;
+};
+
+export type LoinOkResponse = {
+  message: string;
+  token: string;
+  user: User;
+};
+
+export type userProfile = {
+  message: string;
+  user: User;
 };

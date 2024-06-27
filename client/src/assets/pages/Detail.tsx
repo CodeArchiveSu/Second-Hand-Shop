@@ -15,9 +15,21 @@ function Detail({ products }: { products: products[] }) {
     return item._id === id;
   });
 
-  console.log(filteredItem);
-
-  return <div>Detail</div>;
+  return (
+    <>
+      <div>{filteredItem?.title}</div>
+      <div>
+        {filteredItem &&
+          filteredItem.images.map((item, index) => (
+            <div className="item-images">
+              <img src={item.url}></img>
+            </div>
+          ))}
+      </div>
+      <div>{filteredItem?.createdAt}</div>
+      <div>{filteredItem?.price}</div>
+    </>
+  );
 }
 
 export default Detail;

@@ -1,6 +1,9 @@
+import likedItemModel from "../models/likeItemModel.js";
+import ProductModel from "../models/productModel.js";
 import productModel from "../models/productModel.js";
 import { imageUpload } from "../utils/imageManagment.js";
 import { removeTempFile } from "../utils/tempFileManagement.js";
+// import { io } from "../server.js"; // Import the io object from server.js
 
 //생아이템추가
 // const upLoadNewItem = async (req, res) => {
@@ -49,7 +52,7 @@ import { removeTempFile } from "../utils/tempFileManagement.js";
 const upLoadNewItem = async (req, res) => {
   console.log(req.files);
   try {
-    if (!req.body.title || !req.body.price || !req.body.category) {
+    if (!req.body.title || !req.body.price) {
       res.status(400).json({ error: "Please fill all required fields" });
       removeTempFile(req.file);
       return;
@@ -70,10 +73,10 @@ const upLoadNewItem = async (req, res) => {
 
       newProduct.images = uploadedImages;
     }
+
     await newProduct.save();
     // res.status(200).json("testing");
     res.status(200).json(newProduct);
-    console.log("이미지들", newProduct.images);
   } catch (error) {
     console.error("Error uploading image:", error);
     res.status(500).json({ error: "Server Error" });
@@ -82,9 +85,42 @@ const upLoadNewItem = async (req, res) => {
   }
 };
 
+const likeItem = async (req, res) => {
+  try {
+    //만약 아이디 없으면 안됨 로그인 포스트 나와야함
+    if (!req.body.userId) {
+      console.log("Login first");
+      return;
+    }
+
+    const newLikedProduct = new likedItemModel(req.body);
+    console.log(req.body);
+    await newLikedProduct.save();
+
+    res.status(200).json(newLikedProduct); // Respond with the saved product data
+  } catch (error) {
+    console.error("Error posting like item:", error);
+    res.status(500).json({ error: "Server Error" });
+  }
+  // const newLikedProduct = new likedItemModel(req.body);
+  // res.status(200).json(newProduct);
+};
+
+const getLikedItems = async (req, res) => {
+  try {
+    const update = await likedItemModel
+      .find({})
+      .populate("likedItemId")
+      .populate("userId");
+    res.status(200).json(update);
+  } catch (erorr) {
+    res.status(500).json({ erorr: "Server Erorr" });
+  }
+};
+
 const updateProduct = async (req, res) => {
   try {
-    const updateProduct = await ProductModel.findByIdAndUpdate(req.body._id, {
+    const updateProduct = await productModel.findByIdAndUpdate(req.body._id, {
       ...req.body,
     });
 
@@ -94,14 +130,40 @@ const updateProduct = async (req, res) => {
   }
 };
 
-const gettingAllProduct = async (req, res) => {
-  const allProducts = await ProductModel.find({});
-  // console.log(allProducts);
+const deleteProduct = async (req, res) => {
+  try {
+    const deleteProduct = await productModel.findByIdAndDelete(req.body._id, {
+      ...req.body,
+    });
+    if (!deleteProduct) {
+      return null;
+    }
 
-  res.status(200).json({
-    number: allProducts.length,
-    allProducts,
-  });
+    // io.emit("productDeleted", deleteProduct);
+
+    res.status(200).json({
+      message: "product succesfully deleted",
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(401).json({
+      message: "product could not deleted",
+    });
+  }
+};
+
+const gettingAllProduct = async (req, res) => {
+  const allProducts = await productModel.find({});
+  // console.log(allProducts);
+  try {
+    res.status(200).json({
+      number: allProducts.length,
+      allProducts,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 //ㅁㅣ디어쿼리 만드는방법
@@ -111,10 +173,12 @@ const productbyLocation = async (req, res) => {
 
   if (likes) {
     try {
-      const allProducts = await ProductModel.find({
-        userDisplayName: userName,
-        likes: { $gte: likes },
-      }).exec();
+      const allProducts = await productModel
+        .find({
+          userDisplayName: userName,
+          likes: { $gte: likes },
+        })
+        .exec();
 
       if (allProducts.length == 0) {
         res.status(200).json({
@@ -137,7 +201,7 @@ const productbyLocation = async (req, res) => {
 
   if (!likes) {
     try {
-      const Products = await ProductModel.find({ userDisplayName: userName });
+      const Products = await productModel.find({ userDisplayName: userName });
       res.status(200).json({
         number: Products.length,
         Products,
@@ -150,4 +214,30 @@ const productbyLocation = async (req, res) => {
     }
   }
 };
-export { updateProduct, upLoadNewItem, gettingAllProduct, productbyLocation };
+
+const productByUserId = async (req, res) => {
+  const userId = req.params._id;
+  // console.log(req);
+  try {
+    const Products = await ProductModel.find({ userId: userId });
+    res.status(200).json({
+      number: Products.length,
+      Products,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "something went wrong",
+    });
+  }
+};
+
+export {
+  productByUserId,
+  updateProduct,
+  upLoadNewItem,
+  gettingAllProduct,
+  productbyLocation,
+  deleteProduct,
+  likeItem,
+  getLikedItems,
+};
