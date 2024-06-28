@@ -106,18 +106,6 @@ const likeItem = async (req, res) => {
   // res.status(200).json(newProduct);
 };
 
-const getLikedItems = async (req, res) => {
-  try {
-    const update = await likedItemModel
-      .find({})
-      .populate("likedItemId")
-      .populate("userId");
-    res.status(200).json(update);
-  } catch (erorr) {
-    res.status(500).json({ erorr: "Server Erorr" });
-  }
-};
-
 const updateProduct = async (req, res) => {
   try {
     const updateProduct = await productModel.findByIdAndUpdate(req.body._id, {
@@ -217,9 +205,10 @@ const productbyLocation = async (req, res) => {
 
 const productByUserId = async (req, res) => {
   const userId = req.params._id;
-  // console.log(req);
+  console.log(req.params);
   try {
     const Products = await ProductModel.find({ userId: userId });
+
     res.status(200).json({
       number: Products.length,
       Products,
@@ -239,5 +228,4 @@ export {
   productbyLocation,
   deleteProduct,
   likeItem,
-  getLikedItems,
 };

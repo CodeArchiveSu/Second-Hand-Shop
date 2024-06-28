@@ -11,6 +11,8 @@ import userRouter from "./routes/userRouter.js";
 import { cloudinaryConfig } from "./config/cloudinary.js";
 import passport from "passport";
 import passportStrategy from "./config/passportConfig.js";
+import favoriteItemesRouter from "./routes/favoriteItemsRoute.js";
+import chatRouter from "./routes/chatRoute.js";
 
 dotenv.config();
 const app = express();
@@ -42,6 +44,8 @@ const loadRoutes = () => {
   app.use("/api", router); //base url
   app.use("/api/products", productRouter);
   app.use("/api/users", userRouter);
+  app.use("/api/favoriteItems", favoriteItemesRouter);
+  app.use("/api/chatRooms", chatRouter);
   app.use("*", (req, res) => {
     res.status(404).json({ error: 'Endpoint doesn"t exist' });
   });

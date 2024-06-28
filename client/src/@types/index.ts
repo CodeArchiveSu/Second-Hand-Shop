@@ -19,6 +19,7 @@ export type products = {
   description?: string;
   _id: string;
   likes?: number;
+  userId: string;
 };
 
 export type images = {
@@ -36,4 +37,25 @@ export type LoinOkResponse = {
 export type userProfile = {
   message: string;
   user: User;
+};
+
+export type state = {
+  user: User;
+};
+
+export type likes = {
+  _id: string;
+  userId: User;
+  likedItemId: products;
+};
+
+export type chatRoom = {
+  _id: string;
+  itemId: products;
+  userId: User;
+  sellerId: User;
+};
+
+export type chatRoomResponse = {
+  chatRooms: chatRoom;
 };

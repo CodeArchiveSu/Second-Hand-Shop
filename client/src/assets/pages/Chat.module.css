@@ -1,0 +1,36 @@
+.chatPageBox {
+  display: flex;
+  justify-content: center;
+  font-family: "Teachers", sans-serif;
+  font-optical-sizing: auto;
+  width: 100vw;
+  margin-top: 14vh;
+  margin-bottom: 14vh;
+}
+
+.cardsContainer {
+  border-radius: 16px;
+}
+
+.cards {
+  width: 37vw;
+  /* border-top: 1px rgb(0, 0, 0); */
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  border: 1px solid grey;
+  /* background-color: black; */
+  margin-top: 2vh;
+  padding: 2vh;
+}
+
+.cardImages {
+  width: 13vw;
+  height: 13vw;
+}
+
+.cardImages img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

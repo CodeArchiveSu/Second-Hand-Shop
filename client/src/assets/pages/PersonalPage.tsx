@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Users, initialState, userLogout } from "../../store";
+import { Users, userLogout } from "../../store";
 import styles from "./PersonalPage.module.css";
 import { useNavigate } from "react-router-dom";
-import { User, products } from "../../@types";
+import { User, products, state } from "../../@types";
 import io from "socket.io-client";
-
-type state = {
-  user: User;
-};
 
 // const socket = io("http://localhost:3020");
 
@@ -41,16 +37,6 @@ function PersonalPage() {
     if (LoggedinUser) {
       fetchItemsById();
     }
-
-    // socket.on("productDeleted", (deletedProduct) => {
-    //   setProducts((prevProducts) =>
-    //     prevProducts.filter((product) => product._id !== deletedProduct._id)
-    //   );
-    // });
-
-    // return () => {
-    //   socket.off("productDeleted");
-    // };
   }, [LoggedinUser]);
 
   const removetoken = () => {
