@@ -17,8 +17,11 @@ import { getToken, isLoggedIn } from "./assets/utils/tokensServices.js";
 import { useDispatch, useSelector } from "react-redux";
 import { Users, setUser, setUserLoginStatus } from "./store.js";
 import ProtectedRoutes from "./assets/ProtectedRoutes.js";
+import ChatRequest from "./assets/pages/ChatRequest.js";
+import { io } from "socket.io-client";
 
 function App() {
+  console.log("APPPPP");
   let dispatch = useDispatch();
 
   const [products, setProducts] = useState<products[]>([]);
@@ -36,6 +39,7 @@ function App() {
 
   useEffect(() => {
     fetchProducts();
+    // }, [products]);
   }, []);
 
   useEffect(() => {
@@ -97,13 +101,18 @@ function App() {
         <Route path="/detail/:id" element={<Detail products={products} />} />
 
         <Route element={<ProtectedRoutes />}>
-          <Route path="/upload" element={<Upload />} />
+          <Route
+            path="/upload"
+            element={<Upload products={products} setProducts={setProducts} />}
+          />
           <Route path="/personalPage" element={<PersonalPage />} />
           <Route path="/favorite" element={<Favorite />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/request/:id" element={<ChatRequest />} />
         </Route>
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
+
         <Route path="*" element={<div>Huch, diese Seite gibt es nicht </div>} />
       </Routes>
     </>

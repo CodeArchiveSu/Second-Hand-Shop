@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { NotOKType, chatRoom, products, state } from "../../@types";
 import styles from "./Detail.module.css";
 import { useSelector } from "react-redux";
 import { compose } from "@reduxjs/toolkit";
 import { baseUrl } from "../utils/baseUrl";
+import { io } from "socket.io-client";
 
 type QuizParams = {
   id: string;
@@ -50,6 +51,7 @@ function Detail({ products }: { products: products[] }) {
       if (response.ok) {
         const result = (await response.json()) as chatRoom;
         console.log(`newChatRomm!`, result);
+        setChatroomId();
         navigate("/chat");
       }
       if (!response.ok) {

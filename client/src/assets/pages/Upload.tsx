@@ -14,7 +14,12 @@ type state = {
   user: User;
 };
 
-function Upload() {
+type UploadProps = {
+  products: products[];
+  setProducts: React.Dispatch<React.SetStateAction<products[]>>;
+};
+
+const Upload: React.FC<UploadProps> = ({ products, setProducts }) => {
   let LoggedinUser = useSelector((state: state) => {
     return state.user;
   });
@@ -167,6 +172,8 @@ function Upload() {
         setLocation({ City: "", Postcode: "" });
         setTextValues({ description: "" });
         setUploadImgUrls([]);
+
+        setProducts((prevPoducts) => [...prevPoducts, result]);
       }
       if (!response.ok) {
         const result = (await response.json()) as NotOKType;
@@ -271,6 +278,6 @@ function Upload() {
       </form>
     </div>
   );
-}
+};
 
 export default Upload;

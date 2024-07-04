@@ -20,6 +20,28 @@ export const getFavoriteItemByUser = async (req, res) => {
   }
 };
 
+export const unlikeItem = async (req, res) => {
+  console.log(req.body);
+  try {
+    const filter = { likedItemId: req.body._id, userId: req.body.userId };
+
+    const unlikeProduct = await likedItemModel.findOneAndDelete(filter);
+
+    if (!unlikeProduct) {
+      console.log("해당아이템없음");
+    }
+
+    res.status(200).json({
+      message: "product succesfully deleted",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(401).json({
+      message: "product could not deleted",
+    });
+  }
+};
+
 // const test = async (req, res) => {
 //   // const userId = req;
 //   console.log("Testing");

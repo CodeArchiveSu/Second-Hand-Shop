@@ -49,6 +49,7 @@ export type likes = {
   likedItemId: products;
 };
 
+
 export type chatRoom = {
   _id: string;
   itemId: products;
@@ -58,4 +59,12 @@ export type chatRoom = {
 
 export type chatRoomResponse = {
   chatRooms: chatRoom;
+};
+
+export type messageSent = {
+  chatUserId: string;
+  message: string;
+  chatUserName: string;
+  _id: string;
+  createdAt: string;
 };

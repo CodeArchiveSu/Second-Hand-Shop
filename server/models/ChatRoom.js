@@ -11,6 +11,7 @@ const chatRoomSchema = new Schema(
     },
     userId: { type: Schema.Types.ObjectId, ref: "users", require: true },
     sellerId: { type: Schema.Types.ObjectId, ref: "users", require: true },
+    messages: [{ type: Schema.Types.ObjectId, ref: "comments" }],
   },
   { timestamps: true }
 );

@@ -3,51 +3,6 @@ import ProductModel from "../models/productModel.js";
 import productModel from "../models/productModel.js";
 import { imageUpload } from "../utils/imageManagment.js";
 import { removeTempFile } from "../utils/tempFileManagement.js";
-// import { io } from "../server.js"; // Import the io object from server.js
-
-//생아이템추가
-// const upLoadNewItem = async (req, res) => {
-//   try {
-//     if (!req.body.title || !req.body.price || !req.body.category) {
-//       res.status(400).json({ erorr: "please fill the form" });
-//       req.files.forEach((file) => {
-//         removeTempFile(file);
-//       });
-//       return;
-//     }
-//     // const newProduct = await ProductModel.create(req.body);
-//     const newProduct = new ProductModel(req.body);
-//     console.log("여기요", req.files);
-
-//     if (req.files && req.files.length > 0) {
-//       const imagePromises = req.files.map((file) =>
-//         imageUpload(file, "productImages")
-//       );
-
-//       const uploadedImages = await Promise.all(imagePromises);
-
-//       console.log("업로드 이미지들", uploadedImages);
-
-//       // Assume imageUpload returns [productURL, public_id] for each file
-//       newProduct.images = uploadedImages.map(([productURL, public_id]) => ({
-//         url: productURL,
-//         public_id,
-//       }));
-//       console.log("업로드 이미지들", newProduct.images);
-//     }
-
-//     await newProduct.save();
-
-//     res.status(200).json(newProduct);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).sjon({ error: "Server Erorr" });
-//   } finally {
-//     req.files.forEach((file) => {
-//       removeTempFile(file);
-//     });
-//   }
-// };
 
 const upLoadNewItem = async (req, res) => {
   console.log(req.files);
@@ -93,11 +48,21 @@ const likeItem = async (req, res) => {
       return;
     }
 
-    const newLikedProduct = new likedItemModel(req.body);
-    console.log(req.body);
-    await newLikedProduct.save();
+    const { likedItemId, userId } = req.body;
 
-    res.status(200).json(newLikedProduct); // Respond with the saved product data
+    const existing = await likedItemModel.findOne({ userId, likedItemId });
+
+    if (existing) {
+      console.log("왜그냐");
+      return res.status(400).json({ message: "Item already liked" });
+    }
+
+    if (!existing) {
+      console.log("추가링"); // Respond with the saved product data
+      const newLikedProduct = new likedItemModel(req.body);
+      await newLikedProduct.save();
+      res.status(200).json(newLikedProduct);
+    }
   } catch (error) {
     console.error("Error posting like item:", error);
     res.status(500).json({ error: "Server Error" });
@@ -126,8 +91,6 @@ const deleteProduct = async (req, res) => {
     if (!deleteProduct) {
       return null;
     }
-
-    // io.emit("productDeleted", deleteProduct);
 
     res.status(200).json({
       message: "product succesfully deleted",

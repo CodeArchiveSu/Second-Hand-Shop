@@ -1,8 +1,9 @@
 import { json } from "express";
 import chatRoomModel from "../models/ChatRoom.js";
+import chatDetailModel from "../models/chatDetailModel.js";
 
 export const createNewRoom = async (req, res) => {
-  console.log(req);
+  console.log(req.body);
 
   try {
     if (!req.body.itemId || !req.body.sellerId) {
@@ -35,17 +36,72 @@ export const getChatRooms = async (req, res) => {
   const userId = req.params.userId;
   try {
     const chatRooms = await chatRoomModel
-      .find({ userId: userId })
+      .find({
+        $or: [{ userId: userId }, { sellerId: userId }],
+      })
       .populate("userId")
       .populate("itemId")
-      .populate("sellerId");
+      .populate("sellerId")
+      .populate("messages");
 
     res.status(200).json({
+      Number: chatRooms.length,
       chatRooms: chatRooms,
     });
   } catch (error) {
     res.status(400).json({
       message: "something went wrong",
     });
+  }
+};
+
+export const chatRequest = async (req, res) => {
+  console.log(req);
+  const chatId = req.params.chatId;
+  try {
+    const chatRequest = await chatRoomModel
+      .find({ _id: chatId })
+      .populate("userId")
+      .populate("itemId")
+      .populate("sellerId")
+      .populate("messages");
+
+    res.status(200).json({
+      Number: chatRequest.length,
+      chatRequst: chatRequest,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "something went wrong",
+    });
+  }
+};
+
+//register and then update
+export const sendMessage = async (req, res) => {
+  try {
+    const newMessage = new chatDetailModel(req.body);
+    await newMessage.save();
+    res.status(200).json(newMessage);
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
+//updateMessage
+export const updateMessage = async (req, res) => {
+  console.log("update Message::::", req.body);
+  try {
+    const addNewMessage = await chatRoomModel.findByIdAndUpdate(
+      req.body._id,
+      {
+        $push: { messages: req.body.messages },
+      },
+      { new: true }
+    );
+    res.status(200).json(addNewMessage);
+  } catch (error) {
+    console.log(error);
   }
 };

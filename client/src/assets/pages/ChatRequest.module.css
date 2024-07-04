@@ -1,0 +1,11 @@
+.messageContainer {
+  margin-top: 1vh;
+}
+
+.right {
+  background-color: aqua;
+}
+
+.left {
+  background-color: rgb(0, 255, 21);
+}

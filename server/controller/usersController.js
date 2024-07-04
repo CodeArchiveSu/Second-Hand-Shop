@@ -147,6 +147,14 @@ export const login = async (req, res) => {
       }
 
       if (token) {
+        // req.session.loggedIn = true;
+        // req.session.user = {
+        //   id: exsistingUser._id,
+        //   email: exsistingUser.email,
+        //   userDisplayName: exsistingUser.userDisplayName,
+        //   avatar: exsistingUser.avatar,
+        // };
+
         res.status(200).json({
           message: "Login successful",
           user: {
@@ -160,7 +168,7 @@ export const login = async (req, res) => {
       }
     }
   } catch (erorr) {
-    console.log(error);
+    console.log(erorr);
     res.status(401).json({
       message: "something went wrong during login",
     });
@@ -170,7 +178,16 @@ export const login = async (req, res) => {
 export const getUserProfile = async (req, res) => {
   console.log("user Profile function");
   console.log("user informaiton", req.user);
+
   if (req.user) {
+    // req.session.loggedIn = true;
+    // req.session.user = {
+    //   id: req.user._id,
+    //   email: req.user.email,
+    //   userDisplayName: req.user.userDisplayName,
+    //   avatar: req.user.avatar,
+    // };
+
     res.status(200).json({
       message: "user profile information",
       user: {

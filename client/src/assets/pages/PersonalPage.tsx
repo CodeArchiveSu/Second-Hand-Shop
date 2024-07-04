@@ -16,8 +16,6 @@ function PersonalPage() {
     return state.user;
   });
 
-  console.log("LoggedinUser in personal PAge", LoggedinUser);
-
   const [products, setProducts] = useState<products[]>([]);
 
   const fetchItemsById = async () => {

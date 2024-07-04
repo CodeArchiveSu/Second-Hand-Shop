@@ -3,8 +3,10 @@ import { chatRoom, chatRoomResponse, state } from "../../@types";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../utils/baseUrl";
 import styles from "./Chat.module.css";
+import { useNavigate } from "react-router-dom";
 
 function Chat() {
+  const navigate = useNavigate();
   const [chatRooms, setChatRooms] = useState<chatRoom[]>([]);
   let LoggedinUser = useSelector((state: state) => {
     return state.user;
@@ -14,6 +16,7 @@ function Chat() {
     try {
       if (!LoggedinUser) {
         console.log("Login first");
+        navigate("/login");
       }
 
       const response = await fetch(
@@ -33,6 +36,10 @@ function Chat() {
     }
   }, [LoggedinUser]);
 
+  const handleClick = (id: string) => {
+    navigate(`/request/${id}`);
+  };
+
   return (
     <>
       <div className={styles.chatPageBox}>
@@ -44,7 +51,14 @@ function Chat() {
                 <div className={styles.cardImages}>
                   <img src={items.itemId.images[0].url} alt="" />
                 </div>
-                <div>{items.itemId.title}</div>
+                <div
+                  onClick={() => {
+                    navigate("/request");
+                    handleClick(items._id);
+                  }}
+                >
+                  {items.itemId.title}
+                </div>
               </div>
             ))}
         </div>
