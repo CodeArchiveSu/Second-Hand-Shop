@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { products } from "./@types";
 
 // export type initialState = {
 //   message: string;
@@ -14,6 +15,7 @@ export type Users = {
 };
 
 const initialState: Users | null = null;
+const initialState2: products[] = [];
 
 const userSlice = createSlice({
   name: "user",
@@ -29,10 +31,23 @@ const userSlice = createSlice({
   },
 });
 
+const productSlice = createSlice({
+  name: "products",
+  initialState: initialState2,
+  reducers: {
+    setNewProducts(state, action) {
+      console.log("from store", action.payload);
+      state.push(action.payload);
+    },
+  },
+});
+
 export const { setUser, userLogout } = userSlice.actions;
+export const { setNewProducts } = productSlice.actions;
 
 export default configureStore({
   reducer: {
     user: userSlice.reducer,
+    products: productSlice.reducer,
   },
 });

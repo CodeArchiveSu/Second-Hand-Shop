@@ -85,10 +85,6 @@ function ChatRequest() {
 
     return () => {
       if (socket) {
-        // socketRef.current.off("ask-join").off();
-        // socketRef.current.off("message-broadcast").off();
-        // socketRef.current.close();
-        // socketRef.current = null;
         socket.off("ask-join").off();
         socket.off("message-broadcast").off();
         socket.close();
@@ -189,7 +185,7 @@ function ChatRequest() {
     try {
       const response = await fetch(
         "http://localhost:3020/api/chatRooms/sendMessage",
-        requestOptions
+        requestOptions as any
       );
       if (response.ok) {
         const result = (await response.json()) as messageSent;
@@ -232,7 +228,7 @@ function ChatRequest() {
       try {
         const response = await fetch(
           "http://localhost:3020/api/chatRooms/updateMessage",
-          requestOptions
+          requestOptions as any
         );
 
         if (response.ok) {
@@ -254,36 +250,56 @@ function ChatRequest() {
   }, [messageSent]);
   // }, []);
 
-  return (
-    <div style={{ marginBottom: "29px" }}>
-      <div>{seller?.userDisplayName} :HI</div>
-      <div>{request?.userDisplayName} : HI</div>
+  const messageEndRef = useRef(null);
 
-      {messages &&
-        messages.map((item, index) => (
-          <div
-            className={`${styles.messageContainer} ${
-              item.chatUserId === LoggedinUser.id ? styles.right : styles.left
-            }`}
-            key={index}
-          >
-            <div>{item.message}</div>
-            <div>{item.chatUserName}</div>
-          </div>
-        ))}
-      <input
-        onChange={(e) => {
-          saveMessageValue(e);
-        }}
-      ></input>
-      <button
-        onClick={() => {
-          sendMessage();
-          emitMessage();
-        }}
-      >
-        send
-      </button>
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]); // messages가 변경될 때마다 자동으로 스크롤
+
+  const scrollToBottom = () => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <div className={styles.chatBox}>
+      {/* <div>{seller?.userDisplayName} :HI</div>
+      <div>{request?.userDisplayName} : HI</div> */}
+      <div className={styles.messageBox}>
+        {messages &&
+          messages.map((item, index) => (
+            <div
+              className={`${styles.messageContainer} ${
+                item.chatUserId === LoggedinUser.id ? styles.right : styles.left
+              }`}
+              key={index}
+            >
+              <div>
+                <div className={styles.message}>{item.message}</div>
+                <div>{item.chatUserName}</div>
+              </div>
+            </div>
+          ))}
+        <div ref={messageEndRef} /> {/* Empty div to scroll into view */}
+      </div>
+
+      <div className={styles.chatBottom}>
+        <input
+          value={messageValue}
+          onChange={(e) => {
+            saveMessageValue(e);
+          }}
+        ></input>
+        <button
+          className="accountBtn"
+          onClick={() => {
+            sendMessage();
+            emitMessage();
+            scrollToBottom();
+          }}
+        >
+          ↑
+        </button>
+      </div>
     </div>
   );
 }

@@ -1,12 +1,17 @@
 export type NotOKType = {
   erorr: string;
+  chatRoomId: string;
 };
 
 export type User = {
   email: string;
   userDisplayName: string;
-  avatar: string;
+  avatar: userImage;
   id: string;
+};
+
+export type userImage = {
+  url: string;
 };
 
 export type products = {
@@ -49,6 +54,9 @@ export type likes = {
   likedItemId: products;
 };
 
+export type newchatRoomResponse = {
+  newChatRoom: chatRoom;
+};
 
 export type chatRoom = {
   _id: string;

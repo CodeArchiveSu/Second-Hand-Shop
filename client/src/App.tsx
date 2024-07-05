@@ -15,13 +15,13 @@ import { products, userProfile } from "./@types/index.js";
 import Login from "./assets/pages/Login.js";
 import { getToken, isLoggedIn } from "./assets/utils/tokensServices.js";
 import { useDispatch, useSelector } from "react-redux";
-import { Users, setUser, setUserLoginStatus } from "./store.js";
+import { Users, setNewProducts, setUser, setUserLoginStatus } from "./store.js";
 import ProtectedRoutes from "./assets/ProtectedRoutes.js";
 import ChatRequest from "./assets/pages/ChatRequest.js";
 import { io } from "socket.io-client";
+import ProductUpdate from "./assets/pages/ProductUpdate.js";
 
 function App() {
-  console.log("APPPPP");
   let dispatch = useDispatch();
 
   const [products, setProducts] = useState<products[]>([]);
@@ -32,6 +32,7 @@ function App() {
       const response = await fetch("http://localhost:3020/api/products/all");
       const result = await response.json();
       setProducts(result.allProducts);
+      dispatch(setNewProducts(result.allProducts));
     } catch (erorr) {
       console.log(erorr);
     }
@@ -39,7 +40,6 @@ function App() {
 
   useEffect(() => {
     fetchProducts();
-    // }, [products]);
   }, []);
 
   useEffect(() => {
@@ -112,6 +112,12 @@ function App() {
         </Route>
         <Route path="/Login" element={<Login />} />
         <Route path="/Register" element={<Register />} />
+        <Route
+          path="/updateProduct/:id"
+          element={
+            <ProductUpdate products={products} setProducts={setProducts} />
+          }
+        />
 
         <Route path="*" element={<div>Huch, diese Seite gibt es nicht </div>} />
       </Routes>

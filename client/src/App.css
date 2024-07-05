@@ -13,3 +13,74 @@
   font-size: 26px;
   color: gray;
 }
+
+.loginForm {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.loginPage {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.accountBtn {
+  height: 1vh;
+  display: flex;
+  align-items: center;
+}
+
+.registerBoxs {
+  margin-top: 4vh;
+}
+
+.mySwiper {
+  width: 50vh;
+  height: 40vh;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50vh;
+  height: 40vh;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detailPage {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.detailBox {
+  text-align: center;
+  background-color: gray;
+}
+
+.detailBox > div {
+  background-color: white;
+  margin: 1px;
+  color: rgb(103, 102, 102);
+}
+
+.detailBtn {
+  width: 100%;
+  border: 0.5px solid gray;
+  border-radius: 30px;
+  background-color: white;
+}

@@ -75,8 +75,8 @@ function LoginPage() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="loginPage">
+      <form className="loginForm" onSubmit={handleSubmit}>
         <input
           onChange={handleChange}
           value={inputValues.email}
@@ -98,9 +98,11 @@ function LoginPage() {
           onChange={handleChange}
         />
         <input type="file" onChange={handleFileChange} />
-        <button type="submit"> sign up!</button>
+        <button className="accountBtn" type="submit">
+          {" "}
+          sign up!
+        </button>
       </form>
-      <p>{erorr}</p>
     </div>
   );
 }

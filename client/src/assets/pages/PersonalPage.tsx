@@ -72,32 +72,41 @@ function PersonalPage() {
       <div className={styles.personalPageBox}>
         <div className={styles.cardsContainer}>
           {LoggedinUser && (
-            <>
-              <img src={LoggedinUser.avatar} alt="" />
-              <div>{LoggedinUser.userDisplayName}</div>
-              <div>{LoggedinUser.email}</div>
-            </>
+            <div className={styles.profile}>
+              <div className={styles.avatar}>
+                <img src={LoggedinUser.avatar.url} alt="" />
+              </div>
+              <div className={styles.profileRight}>
+                <div>{LoggedinUser.userDisplayName}</div>
+                <div>{LoggedinUser.email}</div>
+              </div>
+              <button className={styles.LoggedOutBtn} onClick={removetoken}>
+                Loggout
+              </button>
+            </div>
           )}
 
           {products &&
             products.map((item) => (
               <div className={styles.cards}>
-                <div className={styles.title}>{item.title}</div>
                 <div className={styles.cardImages}>
                   <img src={item.images[0].url} alt="" />
-                  <button
-                    onClick={() => {
-                      removeItem(item._id);
-                    }}
-                  >
-                    X
-                  </button>
                 </div>
 
-                <div>{item.title}</div>
+                <div className={styles.right}>
+                  <div className={styles.title}>{item.title}</div>
+                  <div className={styles.likes}>
+                    <button
+                      onClick={() => {
+                        removeItem(item._id);
+                      }}
+                    >
+                      X
+                    </button>
+                  </div>
+                </div>
               </div>
             ))}
-          <button onClick={removetoken}>Loggout</button>
         </div>
       </div>
     </div>

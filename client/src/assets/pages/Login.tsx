@@ -104,8 +104,8 @@ function LoginPage() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="loginPage">
+      <form onSubmit={handleSubmit} className="loginForm">
         <input
           onChange={handleChange}
           value={inputValues.email}
@@ -120,11 +120,22 @@ function LoginPage() {
           placeholder="Enter your password..."
           onChange={handleChange}
         />
-
-        <button type="submit"> Login!</button>
+        <button className="accountBtn" type="submit">
+          LOGIN
+        </button>
       </form>
-      <button onClick={removetoken}> Loggout</button>
-      <p>{erorr}</p>
+      <div className="registerBoxs">
+        <button
+          className="accountBtn"
+          onClick={() => {
+            navigate("/register");
+          }}
+        >
+          {" "}
+          CREATE ACCOUNT
+        </button>
+        <p>{erorr}</p>
+      </div>
     </div>
   );
 }

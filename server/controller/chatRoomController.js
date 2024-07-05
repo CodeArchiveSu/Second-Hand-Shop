@@ -4,7 +4,6 @@ import chatDetailModel from "../models/chatDetailModel.js";
 
 export const createNewRoom = async (req, res) => {
   console.log(req.body);
-
   try {
     if (!req.body.itemId || !req.body.sellerId) {
       res.status(400).json({
@@ -18,11 +17,25 @@ export const createNewRoom = async (req, res) => {
       });
     }
 
-    const newChatRoom = new chatRoomModel(req.body);
-    await newChatRoom.save();
-    res.status(200).json({
-      newChatRoom: newChatRoom,
-    });
+    const filter = { itemId: req.body.itemId, userId: req.body.userId };
+    // const { itemId, userId } = req.body;
+    const existing = await chatRoomModel.findOne(filter);
+
+    if (!existing) {
+      const newChatRoom = new chatRoomModel(req.body);
+      await newChatRoom.save();
+      res.status(200).json({
+        newChatRoom: newChatRoom,
+      });
+    }
+
+    if (existing) {
+      //컬렉선에 찾아서
+      console.log("existing", existing);
+      res.status(401).json({
+        chatRoomId: existing._id,
+      });
+    }
   } catch (error) {
     console.log("fail to create new Chat", error);
     res.status(500).json({
@@ -32,7 +45,7 @@ export const createNewRoom = async (req, res) => {
 };
 
 export const getChatRooms = async (req, res) => {
-  console.log(req);
+  // console.log(req);
   const userId = req.params.userId;
   try {
     const chatRooms = await chatRoomModel
@@ -56,7 +69,7 @@ export const getChatRooms = async (req, res) => {
 };
 
 export const chatRequest = async (req, res) => {
-  console.log(req);
+  // console.log(req);
   const chatId = req.params.chatId;
   try {
     const chatRequest = await chatRoomModel

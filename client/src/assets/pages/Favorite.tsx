@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { User, likes, state } from "../../@types";
+import styles from "./Favorite.module.css";
 
 export default function Favorite() {
   const [products, setProducts] = useState<likes[]>([]);
@@ -32,14 +33,23 @@ export default function Favorite() {
   }, [LoggedinUser]);
 
   return (
-    <div>
-      <div>items</div>
-      {products &&
-        products.map((item) => (
-          <div key={item._id}>
-            <div>{item?.likedItemId?.title}</div>
-          </div>
-        ))}
+    <div className={styles.mainpageContainer}>
+      <div className={styles.cardsContainer}>
+        {products &&
+          products.map((item) => (
+            <div key={item._id} className={styles.cards}>
+              <div className={styles.cardImages}>
+                <img src={item.likedItemId.images[0].url} />
+              </div>
+              <div className={styles.right}>
+                <div className={styles.bottom}>
+                  <div>{item?.likedItemId?.title}</div>
+                  <div>{item.likedItemId?.price} Euro</div>
+                </div>
+              </div>
+            </div>
+          ))}
+      </div>
     </div>
   );
 }

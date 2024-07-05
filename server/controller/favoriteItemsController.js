@@ -1,7 +1,6 @@
 import likedItemModel from "../models/likeItemModel.js";
 
 export const getFavoriteItemByUser = async (req, res) => {
-  console.log(req);
   const userId = req.params.userId;
   console.log(userId);
   try {

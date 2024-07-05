@@ -5,7 +5,7 @@ import { imageUpload } from "../utils/imageManagment.js";
 import { removeTempFile } from "../utils/tempFileManagement.js";
 
 const upLoadNewItem = async (req, res) => {
-  console.log(req.files);
+  console.log("uploadnewitem", req.files);
   try {
     if (!req.body.title || !req.body.price) {
       res.status(400).json({ error: "Please fill all required fields" });
@@ -53,12 +53,10 @@ const likeItem = async (req, res) => {
     const existing = await likedItemModel.findOne({ userId, likedItemId });
 
     if (existing) {
-      console.log("왜그냐");
       return res.status(400).json({ message: "Item already liked" });
     }
 
     if (!existing) {
-      console.log("추가링"); // Respond with the saved product data
       const newLikedProduct = new likedItemModel(req.body);
       await newLikedProduct.save();
       res.status(200).json(newLikedProduct);
@@ -72,10 +70,32 @@ const likeItem = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
+  console.log("updateProduct", req.body);
   try {
-    const updateProduct = await productModel.findByIdAndUpdate(req.body._id, {
+    const updates = {
       ...req.body,
-    });
+    };
+    // upload images into new array
+
+    if (req.files && req.files.length > 0) {
+      const imagesUploadPromises = req.files.map(async (file) => {
+        const [productURL, public_id] = await imageUpload(
+          file,
+          "productImages"
+        );
+        return { url: productURL, public_id: public_id };
+      });
+
+      const uploadedImages = await Promise.all(imagesUploadPromises);
+
+      updates.images = uploadedImages;
+    }
+
+    const updateProduct = await productModel.findByIdAndUpdate(
+      req.body._id,
+      updates,
+      { new: true }
+    );
 
     res.status(200).json(updateProduct);
   } catch (error) {

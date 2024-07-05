@@ -9,9 +9,12 @@ import { baseUrl } from "../utils/baseUrl";
 import { NotOKType, User, products } from "../../@types";
 import { initialState } from "../../store";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { text } from "@fortawesome/fontawesome-svg-core";
 
 type state = {
   user: User;
+  products: products[];
 };
 
 type UploadProps = {
@@ -19,12 +22,21 @@ type UploadProps = {
   setProducts: React.Dispatch<React.SetStateAction<products[]>>;
 };
 
-const Upload: React.FC<UploadProps> = ({ products, setProducts }) => {
+const ProductUpdate: React.FC<UploadProps> = ({ products, setProducts }) => {
+  let { id } = useParams();
+  const productId = id;
+
+  const productToUpdate = products.find((item, index) => {
+    return item._id === productId;
+  });
+
+  console.log(productToUpdate);
+
   let LoggedinUser = useSelector((state: state) => {
     return state.user;
   });
 
-  // console.log("LoggedinUser in upload", LoggedinUser);
+  console.log("LoggedinUser", LoggedinUser);
 
   const [location, setLocation] = useState({
     City: "",
@@ -32,12 +44,14 @@ const Upload: React.FC<UploadProps> = ({ products, setProducts }) => {
   });
 
   const [inputValues, setInputValues] = useState({
-    title: "",
-    price: "",
+    title: productToUpdate?.title,
+    price: productToUpdate?.price,
   });
 
   const [textValues, setTextValues] = useState({
-    description: "",
+    description: productToUpdate?.description
+      ? productToUpdate.description
+      : "",
   });
 
   const [uploadImgUrls, setUploadImgUrls] = useState<string[]>([]);
@@ -128,8 +142,8 @@ const Upload: React.FC<UploadProps> = ({ products, setProducts }) => {
     e.preventDefault();
     setErorr("");
     if (
-      !inputValues.price.trim() ||
-      !inputValues.title.trim() ||
+      !inputValues.price ||
+      !inputValues.title?.trim() ||
       !textValues.description.trim() ||
       !location.City ||
       !location.Postcode
@@ -141,12 +155,13 @@ const Upload: React.FC<UploadProps> = ({ products, setProducts }) => {
     const headers = new Headers();
 
     const body = new FormData();
+    body.append("_id", productToUpdate?._id);
     body.append("title", inputValues.title);
     body.append("price", inputValues.price);
-    body.append("userId", LoggedinUser.id);
+    body.append("description", textValues.description);
     body.append("city", location.City);
     body.append("postcode", location.Postcode);
-    body.append("description", textValues.description);
+
     // body.append("category", "food");
     console.log(imageFiles.current);
     if (imageFiles.current && imageFiles.current.length > 0) {
@@ -165,12 +180,12 @@ const Upload: React.FC<UploadProps> = ({ products, setProducts }) => {
 
     try {
       const response = await fetch(
-        `${baseUrl}/api/products/upload`,
+        `${baseUrl}/api/products/update`,
         requestOptions
       );
       if (response.ok) {
         const result = (await response.json()) as products;
-        console.log("new product!", result);
+        console.log("updated product!", result);
         setInputValues({ title: "", price: "" });
         setLocation({ City: "", Postcode: "" });
         setTextValues({ description: "" });
@@ -283,4 +298,4 @@ const Upload: React.FC<UploadProps> = ({ products, setProducts }) => {
   );
 };
 
-export default Upload;
+export default ProductUpdate;

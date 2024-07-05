@@ -1,11 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { NotOKType, chatRoom, products, state } from "../../@types";
+import {
+  NotOKType,
+  chatRoom,
+  chatRoomResponse,
+  newchatRoomResponse,
+  products,
+  state,
+} from "../../@types";
 import styles from "./Detail.module.css";
 import { useSelector } from "react-redux";
 import { compose } from "@reduxjs/toolkit";
 import { baseUrl } from "../utils/baseUrl";
-import { io } from "socket.io-client";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/scrollbar";
+
+// import required modules
+import { Scrollbar } from "swiper/modules";
 
 type QuizParams = {
   id: string;
@@ -20,9 +35,13 @@ function Detail({ products }: { products: products[] }) {
     return item._id === id;
   });
 
+  console.log(filteredItem);
+
   let LoggedinUser = useSelector((state: state) => {
     return state.user;
   });
+
+  const [ChatroomId, setChatroomId] = useState<string | null>(null);
 
   let navigate = useNavigate();
 
@@ -48,40 +67,97 @@ function Detail({ products }: { products: products[] }) {
         `${baseUrl}/api/chatRooms/newRoom`,
         requestOptions as any
       );
+
       if (response.ok) {
-        const result = (await response.json()) as chatRoom;
+        const result = (await response.json()) as newchatRoomResponse;
         console.log(`newChatRomm!`, result);
-        setChatroomId();
-        navigate("/chat");
+        setChatroomId(result.newChatRoom._id);
       }
+
       if (!response.ok) {
         const result = (await response.json()) as NotOKType;
-        console.log("something went wrong", result);
+        console.log("something went wrong", result.chatRoomId);
+        setChatroomId(result.chatRoomId);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    if (ChatroomId) {
+      console.log(ChatroomId);
+      navigate(`/request/${ChatroomId}`);
+    }
+  }, [ChatroomId, navigate]);
+
   // console.log(filteredItem);
 
+  const isSeller = filteredItem?.userId == LoggedinUser.id;
+
+  const editHandler = (productId: string) => {
+    console.log(productId);
+    navigate(`/updateProduct/${productId}`);
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   return (
-    <>
-      <div>{filteredItem?.title}</div>
-      <div>
-        <button onClick={creatNewChatRoom}>Send message</button>
+    <div className="detailPage">
+      <div className="detailBox">
+        <div>{filteredItem?.title}</div>
+        <div>
+          <Swiper
+            scrollbar={{
+              hide: true,
+            }}
+            modules={[Scrollbar]}
+            className="mySwiper"
+          >
+            {filteredItem &&
+              filteredItem.images.map((item, index) => (
+                <div className={styles.itemImages}>
+                  {/* <img src={item.url}></img> */}
+                  <SwiperSlide>
+                    {" "}
+                    <img src={item.url}></img>
+                  </SwiperSlide>
+                </div>
+              ))}
+          </Swiper>
+        </div>
+        <div>{formatDate("2024-06-28T09:48:00.185Z")}</div>
+        <div>{filteredItem?.price} Euro</div>
+        <div>
+          {isSeller ? (
+            <button
+              className="detailBtn"
+              onClick={() => {
+                editHandler(filteredItem._id);
+              }}
+            >
+              Edit
+            </button>
+          ) : (
+            <button
+              className="detailBtn"
+              onClick={() => {
+                creatNewChatRoom();
+              }}
+            >
+              Send message
+            </button>
+          )}
+        </div>
       </div>
-      <div>
-        {filteredItem &&
-          filteredItem.images.map((item, index) => (
-            <div className={styles.itemImages}>
-              <img src={item.url}></img>
-            </div>
-          ))}
-      </div>
-      <div>{filteredItem?.createdAt}</div>
-      <div>{filteredItem?.price}</div>
-    </>
+    </div>
   );
 }
 

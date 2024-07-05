@@ -46,9 +46,9 @@ function MainPage({ products }: { products: products[] }) {
     }
   }, [LoggedinUser, reload]);
 
-  const isFavorite = (productId) => {
+  const isFavorite = (productId: string) => {
     return favoriteProducts.some(
-      (product) => product.likedItemId._id === productId
+      (product) => product.likedItemId?._id === productId
     );
   };
 
@@ -81,7 +81,7 @@ function MainPage({ products }: { products: products[] }) {
       try {
         const response = await fetch(
           `http://localhost:3020/api/favoriteItems/unlike?_id=${구멍}&userId=${두번째구멍}`,
-          requestOptions
+          requestOptions as any
         );
         if (response.ok) {
           const result = await response.json();
@@ -152,7 +152,6 @@ function MainPage({ products }: { products: products[] }) {
                       >
                         {isFavorite(item._id) ? "❤️" : "♡"}
                       </button>
-                      <div>{item.likes}</div>
                     </div>
                     <div>{item.price} Euro</div>
                   </div>

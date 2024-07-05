@@ -15,7 +15,7 @@ const router = express.Router();
 
 router.get("/all", gettingAllProduct);
 router.post("/upload", multerUpload.array("images", 10), upLoadNewItem);
-router.post("/update", updateProduct);
+router.post("/update", multerUpload.array("images", 10), updateProduct);
 router.post("/delete", deleteProduct);
 router.post("/like", likeItem); //like endpoint
 

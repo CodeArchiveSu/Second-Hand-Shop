@@ -14,12 +14,10 @@
 
 .cards {
   width: 37vw;
-  /* border-top: 1px rgb(0, 0, 0); */
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   padding: 5px;
   border: 1px solid grey;
-  /* background-color: black; */
   margin-top: 2vh;
   padding: 2vh;
 }
