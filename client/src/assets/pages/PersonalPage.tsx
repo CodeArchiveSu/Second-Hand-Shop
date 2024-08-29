@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Users, userLogout } from "../../store";
 import styles from "./PersonalPage.module.css";
 import { useNavigate } from "react-router-dom";
-import { User, products, state } from "../../@types";
+import { NotOKType, User, products, state } from "../../@types";
 import io from "socket.io-client";
 
 // const socket = io("http://localhost:3020");
@@ -12,11 +12,12 @@ function PersonalPage() {
   let dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [products, setProducts] = useState<products[]>([]);
+  const [error, setError] = useState("");
+
   let LoggedinUser = useSelector((state: state) => {
     return state.user;
   });
-
-  const [products, setProducts] = useState<products[]>([]);
 
   const fetchItemsById = async () => {
     try {
@@ -34,6 +35,8 @@ function PersonalPage() {
   useEffect(() => {
     if (LoggedinUser) {
       fetchItemsById();
+    } else {
+      navigate("/login");
     }
   }, [LoggedinUser]);
 
@@ -43,7 +46,7 @@ function PersonalPage() {
     navigate("/login");
   };
 
-  const removeItem = (itemId: any) => {
+  const removeItem = async (itemId: any) => {
     // console.log(itemId);
     const headers = new Headers();
 
@@ -57,13 +60,24 @@ function PersonalPage() {
       method: "POST",
       headers,
       body: urlencoded,
-      redirect: "follow",
     };
 
-    fetch("http://localhost:3020/api/products/delete", requestOptions as any)
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.error(error));
+    try {
+      const response = await fetch(
+        "http://localhost:3020/api/products/delete",
+        requestOptions
+      );
+      if (!response.ok) {
+        // Handle non-200 HTTP responses here
+        const errorResult = await response.json();
+        console.log(errorResult);
+      } else {
+        const result = await response.json();
+        console.log(result);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
   };
 
   return (

@@ -83,7 +83,7 @@ function LoginPage() {
       if (!response.ok) {
         const result = (await response.json()) as NotOKType;
         console.log("something went wrong", result);
-        setErorr(result.erorr);
+        setErorr(result.message);
       }
     } catch (error) {
       console.log(erorr);
@@ -98,31 +98,30 @@ function LoginPage() {
     });
   };
 
-  const removetoken = () => {
-    localStorage.removeItem("token");
-    dispatch(userLogout(null));
-  };
-
   return (
     <div className="loginPage">
       <form onSubmit={handleSubmit} className="loginForm">
-        <input
-          onChange={handleChange}
-          value={inputValues.email}
-          type="email"
-          name="email"
-          placeholder="Enter your email..."
-        />
-        <input
-          type="password"
-          name="password"
-          value={inputValues.password}
-          placeholder="Enter your password..."
-          onChange={handleChange}
-        />
-        <button className="accountBtn" type="submit">
-          LOGIN
-        </button>
+        <div className="loginForm-input">
+          <input
+            onChange={handleChange}
+            value={inputValues.email}
+            type="email"
+            name="email"
+            placeholder="Enter your email..."
+          />
+          <input
+            type="password"
+            name="password"
+            value={inputValues.password}
+            placeholder="Enter your password..."
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <button className="accountBtn" type="submit">
+            LOGIN
+          </button>
+        </div>
       </form>
       <div className="registerBoxs">
         <button
@@ -132,9 +131,9 @@ function LoginPage() {
           }}
         >
           {" "}
-          CREATE ACCOUNT
+          OR CREATE ACCOUNT
         </button>
-        <p>{erorr}</p>
+        <p className="error">{erorr}</p>
       </div>
     </div>
   );

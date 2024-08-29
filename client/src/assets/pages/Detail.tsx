@@ -46,6 +46,9 @@ function Detail({ products }: { products: products[] }) {
   let navigate = useNavigate();
 
   const creatNewChatRoom = async () => {
+    if (!LoggedinUser) {
+      navigate("/Login");
+    }
     const headers = new Headers();
 
     headers.append("Content-Type", "application/x-www-form-urlencoded");
@@ -93,7 +96,7 @@ function Detail({ products }: { products: products[] }) {
 
   // console.log(filteredItem);
 
-  const isSeller = filteredItem?.userId == LoggedinUser.id;
+  const isSeller = filteredItem?.userId == LoggedinUser?.id;
 
   const editHandler = (productId: string) => {
     console.log(productId);

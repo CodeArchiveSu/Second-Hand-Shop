@@ -34,6 +34,8 @@ function Chat() {
   useEffect(() => {
     if (LoggedinUser) {
       fetchChatRooms();
+    } else {
+      navigate("/login");
     }
   }, [LoggedinUser]);
 

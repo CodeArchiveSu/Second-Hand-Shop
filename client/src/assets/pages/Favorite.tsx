@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { User, likes, state } from "../../@types";
 import styles from "./Favorite.module.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Favorite() {
+  const navigate = useNavigate();
   const [products, setProducts] = useState<likes[]>([]);
 
   let LoggedinUser = useSelector((state: state) => {
@@ -29,6 +31,8 @@ export default function Favorite() {
   useEffect(() => {
     if (LoggedinUser) {
       fetchFavoriteItems();
+    } else {
+      navigate("/login");
     }
   }, [LoggedinUser]);
 

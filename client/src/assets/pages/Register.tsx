@@ -1,13 +1,17 @@
 import React, { useRef, useState } from "react";
 import { baseUrl } from "../utils/baseUrl";
 import { NotOKType, User } from "../../@types";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [inputValues, setInputValues] = useState({
     email: "",
     password: "",
     userDisplayName: "",
   });
+
+  const [fileName, setFileName] = useState("Select a profile picture");
 
   const [erorr, setErorr] = useState("");
   const selectedFile = useRef<File | null>(null);
@@ -15,8 +19,11 @@ function LoginPage() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files);
+
     if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
       selectedFile.current = e.target.files[0];
+      setFileName(file.name);
     }
   };
 
@@ -37,7 +44,7 @@ function LoginPage() {
     body.append("password", inputValues.password);
     body.append("userDisplayName", inputValues.userDisplayName);
     if (selectedFile.current) {
-      body.append("avatar", selectedFile.current, "[PROXY]");
+      body.append("avatar", selectedFile.current);
     }
 
     const requestOptions = {
@@ -55,6 +62,7 @@ function LoginPage() {
         const result = (await response.json()) as User;
         console.log("new user!", result);
         setInputValues({ email: "", password: "", userDisplayName: "" });
+        navigate("/login");
       }
       if (!response.ok) {
         const result = (await response.json()) as NotOKType;
@@ -97,10 +105,22 @@ function LoginPage() {
           placeholder="Chosse a username"
           onChange={handleChange}
         />
-        <input type="file" onChange={handleFileChange} />
+        {/* <input type="file" onChange={handleFileChange} /> */}
+        <div className="file-input-wrapper">
+          <label className="file-label">
+            <input
+              type="file"
+              onChange={handleFileChange}
+              style={{ display: "none" }} // Hide the default file input
+            />
+
+            {fileName == "" ? <div>select a profile picture</div> : fileName}
+          </label>
+          {/* <span>{fileName}</span> */}
+        </div>
         <button className="accountBtn" type="submit">
           {" "}
-          sign up!
+          SIGN UP
         </button>
       </form>
     </div>

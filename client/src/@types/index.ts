@@ -1,6 +1,7 @@
 export type NotOKType = {
   erorr: string;
   chatRoomId: string;
+  message: string;
 };
 
 export type User = {

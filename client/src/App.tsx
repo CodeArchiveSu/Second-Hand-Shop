@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import MainPage from "./assets/pages/MainPage";
 import Favorite from "./assets/pages/Favorite";
 import Upload from "./assets/pages/Upload";
@@ -23,6 +23,7 @@ import ProductUpdate from "./assets/pages/ProductUpdate.js";
 
 function App() {
   let dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [products, setProducts] = useState<products[]>([]);
   // const [user, setUser] = useState<userProfile | null>(null);
@@ -75,6 +76,7 @@ function App() {
         );
         if (!response.ok && response.status == 401) {
           console.log("token invalid login again");
+          navigate("/login");
           return;
         }
         if (response.ok) {

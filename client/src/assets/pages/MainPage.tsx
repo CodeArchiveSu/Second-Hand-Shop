@@ -75,13 +75,12 @@ function MainPage({ products }: { products: products[] }) {
         method: "POST",
         headers,
         body,
-        redirect: "follow",
       };
 
       try {
         const response = await fetch(
           `http://localhost:3020/api/favoriteItems/unlike?_id=${구멍}&userId=${두번째구멍}`,
-          requestOptions as any
+          requestOptions
         );
         if (response.ok) {
           const result = await response.json();
@@ -105,12 +104,11 @@ function MainPage({ products }: { products: products[] }) {
         method: "POST",
         headers,
         body,
-        redirect: "follow",
       };
       try {
         const response = await fetch(
           "http://localhost:3020/api/products/like",
-          requestOptions as any
+          requestOptions
         );
         if (response.ok) {
           const result = await response.json();
