@@ -81,7 +81,7 @@ function App() {
         }
         if (response.ok) {
           const result = await response.json();
-          // console.log("Profile result", result);
+          console.log("Profile result", result);
           dispatch(setUser(result.user));
         }
       } catch (error) {

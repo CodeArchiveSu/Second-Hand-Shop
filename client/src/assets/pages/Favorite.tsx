@@ -39,7 +39,7 @@ export default function Favorite() {
   return (
     <div className={styles.mainpageContainer}>
       <div className={styles.cardsContainer}>
-        {products &&
+        {products.length !== 0 ? (
           products.map((item) => (
             <div key={item._id} className={styles.cards}>
               <div className={styles.cardImages}>
@@ -52,7 +52,10 @@ export default function Favorite() {
                 </div>
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <>Discover your favorite items!</>
+        )}
       </div>
     </div>
   );

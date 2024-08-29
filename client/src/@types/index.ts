@@ -8,6 +8,7 @@ export type User = {
   email: string;
   userDisplayName: string;
   avatar: userImage;
+  postcode: string;
   id: string;
 };
 

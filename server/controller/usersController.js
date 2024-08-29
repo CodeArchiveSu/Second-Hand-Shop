@@ -60,9 +60,9 @@ export const signup = async (req, res) => {
           id: newUser._id,
           email: newUser.email,
           userDisplayName: newUser.userDisplayName,
+          postcode: newUser.postcode,
           avatar: newUser.avatar,
         };
-
         res.status(200).json(userforFront);
       }
     }
@@ -194,6 +194,7 @@ export const getUserProfile = async (req, res) => {
         id: req.user._id,
         email: req.user.email,
         userDisplayName: req.user.userDisplayName,
+        postcode: req.user.postcode,
         avatar: req.user.avatar,
       },
     });

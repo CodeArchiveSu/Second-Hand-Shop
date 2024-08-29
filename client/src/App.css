@@ -150,3 +150,23 @@
 .file-label:hover {
   background-color: #e0e0e0;
 }
+
+.modal {
+  position: fixed;
+  background-color: white;
+  width: 20vw;
+  height: 7vw;
+  border: 1px solid gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 1s all ease;
+}
+
+.hide {
+  opacity: 0;
+}
+
+.show {
+  opacity: 1;
+}

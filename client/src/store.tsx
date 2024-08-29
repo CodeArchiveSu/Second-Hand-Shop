@@ -10,6 +10,7 @@ import { products } from "./@types";
 export type Users = {
   id: string;
   email: string;
+  postcode: string;
   userDisplayName: string;
   avatar: string;
 };

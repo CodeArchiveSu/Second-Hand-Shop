@@ -9,7 +9,10 @@ function LoginPage() {
     email: "",
     password: "",
     userDisplayName: "",
+    postcode: "",
   });
+
+  const [display, setDisplay] = useState("");
 
   const [fileName, setFileName] = useState("Select a profile picture");
 
@@ -43,6 +46,7 @@ function LoginPage() {
     body.append("email", inputValues.email);
     body.append("password", inputValues.password);
     body.append("userDisplayName", inputValues.userDisplayName);
+    body.append("postcode", inputValues.postcode);
     if (selectedFile.current) {
       body.append("avatar", selectedFile.current);
     }
@@ -61,8 +65,17 @@ function LoginPage() {
       if (response.ok) {
         const result = (await response.json()) as User;
         console.log("new user!", result);
-        setInputValues({ email: "", password: "", userDisplayName: "" });
-        navigate("/login");
+        setInputValues({
+          email: "",
+          password: "",
+          userDisplayName: "",
+          postcode: "",
+        });
+        setTimeout(() => {
+          navigate("/login");
+        }, 1000);
+
+        setDisplay("show");
       }
       if (!response.ok) {
         const result = (await response.json()) as NotOKType;
@@ -105,6 +118,12 @@ function LoginPage() {
           placeholder="Chosse a username"
           onChange={handleChange}
         />
+        <input
+          name="postcode"
+          value={inputValues.postcode}
+          placeholder="Postcode"
+          onChange={handleChange}
+        />
         {/* <input type="file" onChange={handleFileChange} /> */}
         <div className="file-input-wrapper">
           <label className="file-label">
@@ -123,6 +142,8 @@ function LoginPage() {
           SIGN UP
         </button>
       </form>
+
+      <div className={"modal hide" + display}>Successfully Registered !</div>
     </div>
   );
 }

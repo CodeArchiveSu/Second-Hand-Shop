@@ -40,7 +40,6 @@ function LoginPage() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setErorr("");
-    console.log("I would submit", inputValues);
     if (!inputValues.email.trim() || !inputValues.password.trim()) {
       setErorr("Credentials missing!!");
       return;

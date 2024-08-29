@@ -133,30 +133,36 @@ function MainPage({ products }: { products: products[] }) {
     <>
       <div className={styles.mainpageContainer}>
         <div className={styles.cardsContainer}>
-          {products.map((item, index) => {
-            return (
-              <div key={item._id} className={styles.cards}>
-                <div className={styles.cardImages}>
-                  <img src={item.images[0].url} />
-                </div>
-                <div className={styles.right}>
-                  <div onClick={() => handleClick(item._id)}>{item.title}</div>
-                  <div className={styles.bottom}>
-                    <div className={styles.likes}>
-                      <button
-                        onClick={() => {
-                          handlelike(item._id, LoggedinUser.id);
-                        }}
-                      >
-                        {isFavorite(item._id) ? "❤️" : "♡"}
-                      </button>
+          {products.length !== 0 ? (
+            products.map((item, index) => {
+              return (
+                <div key={item._id} className={styles.cards}>
+                  <div className={styles.cardImages}>
+                    <img src={item.images[0].url} />
+                  </div>
+                  <div className={styles.right}>
+                    <div onClick={() => handleClick(item._id)}>
+                      {item.title}
                     </div>
-                    <div>{item.price} Euro</div>
+                    <div className={styles.bottom}>
+                      <div className={styles.likes}>
+                        <button
+                          onClick={() => {
+                            handlelike(item._id, LoggedinUser.id);
+                          }}
+                        >
+                          {isFavorite(item._id) ? "❤️" : "♡"}
+                        </button>
+                      </div>
+                      <div>{item.price} Euro</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })
+          ) : (
+            <div>Looks Like It’s a Ghost Town</div>
+          )}
         </div>
       </div>
     </>

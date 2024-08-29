@@ -48,7 +48,7 @@ function Chat() {
     <>
       <div className={styles.chatPageBox}>
         <div className={styles.cardsContainer}>
-          {chatRooms &&
+          {chatRooms.length !== 0 ? (
             chatRooms.map((items) => (
               <div className={styles.cards} key={items._id}>
                 <div className={styles.cardImages}>
@@ -62,7 +62,10 @@ function Chat() {
                   {items.itemId.title}
                 </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <>No chat rooms were found</>
+          )}
         </div>
       </div>
     </>
