@@ -138,7 +138,7 @@ function MainPage({ products }: { products: products[] }) {
               return (
                 <div key={item._id} className={styles.cards}>
                   <div className={styles.cardImages}>
-                    <img src={item.images[0].url} />
+                    <img src={item.images[item.images.length - 1].url} />
                   </div>
                   <div className={styles.right}>
                     <div onClick={() => handleClick(item._id)}>

@@ -128,7 +128,7 @@ function PersonalPage() {
             products.map((item) => (
               <div className={styles.cards}>
                 <div className={styles.cardImages}>
-                  <img src={item.images[0].url} alt="" />
+                  <img src={item.images[item.images.length - 1].url} alt="" />
                 </div>
 
                 <div className={styles.right}>

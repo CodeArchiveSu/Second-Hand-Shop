@@ -29,11 +29,7 @@ export default function Favorite() {
   };
 
   useEffect(() => {
-    if (LoggedinUser) {
-      fetchFavoriteItems();
-    } else {
-      navigate("/login");
-    }
+    fetchFavoriteItems();
   }, [LoggedinUser]);
 
   return (
@@ -43,7 +39,12 @@ export default function Favorite() {
           products.map((item) => (
             <div key={item._id} className={styles.cards}>
               <div className={styles.cardImages}>
-                <img src={item.likedItemId.images[0].url} />
+                <img
+                  src={
+                    item.likedItemId.images[item.likedItemId.images.length - 1]
+                      .url
+                  }
+                />
               </div>
               <div className={styles.right}>
                 <div className={styles.bottom}>
