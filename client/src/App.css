@@ -119,8 +119,7 @@
 
 .detailBtn {
   width: 100%;
-  border: 0.5px solid gray;
-  border-radius: 30px;
+  border: 0;
   background-color: white;
 }
 

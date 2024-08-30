@@ -137,6 +137,33 @@ const gettingAllProduct = async (req, res) => {
   }
 };
 
+const getItemByPLZ = async (req, res) => {
+  console.log(req.params);
+  const postcode = req.params.PLZ;
+
+  try {
+    const ItemsFromSameCode = await productModel.find({
+      postcode: postcode,
+    });
+
+    if (ItemsFromSameCode.length == 0) {
+      res.status(200).json({
+        message: "no products",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      number: ItemsFromSameCode.length,
+      ItemsFromSameCode,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: error,
+    });
+  }
+};
+
 //ㅁㅣ디어쿼리 만드는방법
 const productbyLocation = async (req, res) => {
   const userName = req.params.userDisplayName;
@@ -205,6 +232,7 @@ const productByUserId = async (req, res) => {
 
 export {
   productByUserId,
+  getItemByPLZ,
   updateProduct,
   upLoadNewItem,
   gettingAllProduct,

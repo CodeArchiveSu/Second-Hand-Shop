@@ -112,6 +112,9 @@ const Upload: React.FC<UploadProps> = ({ products, setProducts }) => {
     setInputValues((prev) => {
       return { ...prev, [e.target.name]: e.target.value };
     });
+    setLocation((prev) => {
+      return { ...prev, [e.target.name]: e.target.value };
+    });
   };
 
   const handleDescriptionChange = (

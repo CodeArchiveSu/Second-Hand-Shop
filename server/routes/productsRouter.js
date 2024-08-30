@@ -8,12 +8,14 @@ import {
   productByUserId,
   deleteProduct,
   likeItem,
+  getItemByPLZ,
 } from "../controller/productsController.js";
 import { multerUpload } from "../middleware/multer.js";
 
 const router = express.Router();
 
 router.get("/all", gettingAllProduct);
+router.get("/getItem/:PLZ", getItemByPLZ);
 router.post("/upload", multerUpload.array("images", 10), upLoadNewItem);
 router.post("/update", multerUpload.array("images", 10), updateProduct);
 router.post("/delete", deleteProduct);

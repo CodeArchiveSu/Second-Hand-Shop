@@ -11,7 +11,7 @@ import PersonalPage from "./assets/pages/PersonalPage";
 import Navigation from "./assets/components/Navigation";
 import Register from "./assets/pages/Register.js";
 import Detail from "./assets/pages/Detail.js";
-import { products, userProfile } from "./@types/index.js";
+import { User, products, userProfile } from "./@types/index.js";
 import Login from "./assets/pages/Login.js";
 import { getToken, isLoggedIn } from "./assets/utils/tokensServices.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,20 +20,32 @@ import ProtectedRoutes from "./assets/ProtectedRoutes.js";
 import ChatRequest from "./assets/pages/ChatRequest.js";
 import { io } from "socket.io-client";
 import ProductUpdate from "./assets/pages/ProductUpdate.js";
+type state = {
+  user: User;
+};
 
 function App() {
   let dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [products, setProducts] = useState<products[]>([]);
+
+  let LoggedinUser = useSelector((state: state) => {
+    return state.user;
+  });
+
+  console.log(LoggedinUser);
   // const [user, setUser] = useState<userProfile | null>(null);
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:3020/api/products/all");
+      const response = await fetch(
+        `http://localhost:3020/api/products/getItem/${LoggedinUser.postcode}`
+      );
       const result = await response.json();
-      setProducts(result.allProducts);
-      dispatch(setNewProducts(result.allProducts));
+      console.log(result);
+      setProducts(result.ItemsFromSameCode);
+      dispatch(setNewProducts(result.ItemsFromSameCode));
     } catch (erorr) {
       console.log(erorr);
     }

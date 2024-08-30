@@ -132,6 +132,11 @@ function MainPage({ products }: { products: products[] }) {
   return (
     <>
       <div className={styles.mainpageContainer}>
+        <div className={styles.zipCode}>
+          Neighborhood Deals in{" "}
+          <span style={{ fontWeight: 500 }}>{LoggedinUser.postcode}</span>
+        </div>
+
         <div className={styles.cardsContainer}>
           {products.length !== 0 ? (
             products.map((item, index) => {
