@@ -5,7 +5,8 @@ A digital marketplace where users can buy and sell secondhand items within their
 
 
 
- ![title](https://imgur.com/xDftHje,gif)   
+<img src="https://imgur.com/xDftHje.gif" alt="title" width="400"/>
+
 
 
 
@@ -15,6 +16,10 @@ A digital marketplace where users can buy and sell secondhand items within their
 
 - User Login and Register
 
- ![title](https://imgur.com/c7cjOWQ.gif)  
+<img src="https://imgur.com/c7cjOWQ.gif" alt="title" width="400"/>
 
-- upload Item
+- Like item
+
+<img src="https://imgur.com/4BkjLQY.gif" alt="title" width="400"/>
+
+- Upload new Item
