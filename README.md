@@ -23,3 +23,27 @@ A digital marketplace where users can buy and sell secondhand items within their
 <img src="https://imgur.com/4BkjLQY.gif" alt="title" width="400"/>
 
 - Upload new Item
+- Edit the Item
+- Chat
+
+## Technologies Used
+
+ 
+
+- Frontend
+
+  - React (with TypeScript)
+  - Redux Toolkit (for state management)
+  - React Framer(for UI animation)
+
+- Backend:
+  - Node.js (with TypeScript)
+  - Express.js (RESTful API)
+  - MongoDB (database)
+  - Multer (for handling file uploads)
+  - Cloudinary (for image hosting)
+  - JWT (JSON Web Token)
+  - Passport.js (for authentication)
+  - bcrypt (for hashing passwords)
+  - websocket (for real time chat)
+
