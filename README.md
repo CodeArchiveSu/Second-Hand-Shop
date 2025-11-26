@@ -204,7 +204,7 @@ Open the frontend:
 
 -Add a “Login Failed” alert
 -Add an alert when a new message arrives
--Product search 
+Implement product search
 
 
 ## 🤝 Contributing
