@@ -121,8 +121,8 @@ Follow the steps below to run **A-round** locally.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/CodeArchiveSu/goDutch.git
-cd goDutch
+git clone https://github.com/CodeArchiveSu/Second-Hand-Shop.git
+cd Second-Hand-Shop
 ```
 
 ### 2. Install dependencies
@@ -153,7 +153,7 @@ client/.env
 Add:
 
 ```env
-REACT_APP_API_URL=http://localhost:5001
+REACT_APP_API_URL=http://localhost:5000
 REACT_APP_API_KEY_LOCATION=<YOUR_IP_GEO_KEY>
 ```
 
@@ -170,8 +170,12 @@ server/.env
 Add:
 
 ```env
-MONGO_DB=mongodb+srv://<USERNAME>:<PASSWORD>@cluster.mongodb.net/goDutch
+MONGO_DB=mongodb+srv://<USERNAME>:<PASSWORD>@cluster.mongodb.net/secondHandShop
 PORT=5001
+CLOUD_NAME
+CLOUD_API_KEY
+CLOUD_SECRET
+
 
 ```
 
@@ -195,42 +199,11 @@ Open the frontend:
 
 
 
-## 🔗 API Endpoints
-
-### **Auth**
-```
-POST /api/users/signup
-POST /api/users/login
-POST /api/updateUser
-GET  /api/users/profile
-GET  /api/users/findUser/:email
-
-```
-
-### **Groups**
-```
-POST /api/groups/newGroup
-GET  /api/groups/allGroups
-GET  /api/groups/:userID
-GET  /api/groups/detail/:groupID
-
-```
-
-### **Bills**
-```
-POST /api/bills/addNewBills
-GET  /api/bills/laodBills/:group_id
-```
-
 
 ## 🚧 Future Improvements
 
-- Add settlement feature for balance clearing  
-- Real-time updates via WebSockets  
-- Push Notifications  
-- Multi-language support  
-- Add PWA mode  
-
+-Add a “Login Failed” alert
+-Add an alert when a new message arrives
 
 
 ## 🤝 Contributing
